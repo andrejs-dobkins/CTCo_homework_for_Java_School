@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <af:panelFormLayout id="pfl1" labelAlignment="top">
+        <af:subform id="sf1" default="true">
+            <af:panelFormLayout id="pfl2" labelAlignment="top">
+                <!-- Input -->
+                <af:panelLabelAndMessage id="plam1" label="Friend's name"
+                                         for="name">
+                    <af:inputText id="name"
+                                  value="#{pageFlowScope.friendsHelperMB.name}"
+                                  required="true"
+                                  requiredMessageDetail="Information is not entered"/>
+                    <af:message id="m1" for="name"/>
+                </af:panelLabelAndMessage>
+                <af:panelLabelAndMessage id="plam2" label="Service paid for"
+                                         for="expense">
+                    <af:inputText id="expense"
+                                  value="#{pageFlowScope.friendsHelperMB.expense}"
+                                  required="true"
+                                  requiredMessageDetail="Information is not entered"/>
+                    <af:message id="m2" for="expense"/>
+                </af:panelLabelAndMessage>
+                <af:panelLabelAndMessage id="plam3" label="Amount" for="sum">
+                    <af:inputText id="sum"
+                                  value="#{pageFlowScope.friendsHelperMB.sum}"
+                                  required="true"
+                                  requiredMessageDetail="Information is not entered">
+                        <af:validateRegExp id="vre1" pattern="[0-9]*\.?[0-9]*"
+                                           messageDetailNoMatch="Information is entered in the incorrect format"/>
+                    </af:inputText>
+                    <af:message id="m3" for="sum"/>
+                </af:panelLabelAndMessage>
+                <af:commandButton id="addExpense" text="Add"
+                                  actionListener="#{pageFlowScope.friendsHelperMB.addExpense}"/>
+            </af:panelFormLayout>
+        </af:subform>
+    </af:panelFormLayout>
+    <af:subform id="sf2" default="true">
+        <af:spacer id="s1" height="100px"/>
+        <af:commandButton id="clearExpenses" text="Clear all"
+                          actionListener="#{pageFlowScope.friendsHelperMB.clearExpenses}"
+                          rendered="#{not empty pageFlowScope.friendsHelperMB.people}"
+                          partialTriggers="::sf1:addExpense"/>
+        <af:panelGroupLayout id="pgl1" layout="horizontal"
+                             partialTriggers="::sf1:addExpense ::sf2:clearExpenses"
+                             rendered="#{not empty pageFlowScope.friendsHelperMB.people}">
+            <af:panelGroupLayout id="pgl2" layout="vertical">
+                <af:panelGroupLayout id="pgl3" layout="vertical">
+                    <!-- Data from Input -->
+                    <af:iterator id="it1"
+                                 value="#{pageFlowScope.friendsHelperMB.people}"
+                                 var="row">
+                        <af:iterator id="it2" value="#{row.expenses}"
+                                     var="expenses">
+                            <af:outputText id="ot1"
+                                           value="#{row.name}: #{expenses.expense} - #{expenses.sum}$"/>
+                        </af:iterator>
+                    </af:iterator>
+                </af:panelGroupLayout>
+                <af:spacer id="s2" height="50px"/>
+                <af:panelGroupLayout id="pgl4" layout="vertical">
+                    <!-- Total and Average -->
+                    <af:outputText id="ot2"
+                                   value="Total: #{pageFlowScope.friendsHelperMB.total}$"/>
+                    <af:outputText id="ot3"
+                                   value="Average: #{pageFlowScope.friendsHelperMB.average}$ to be paid by mate."/>
+                </af:panelGroupLayout>
+            </af:panelGroupLayout>
+            <af:spacer id="s3" width="200px"/>
+            <af:panelGroupLayout id="pgl5" layout="vertical">
+                <af:panelGroupLayout id="pgl6" layout="vertical">
+                    <!-- Expenses -->
+                    <af:outputText id="ot4" value="Expenses:"/>
+                    <af:iterator id="it3"
+                                 value="#{pageFlowScope.friendsHelperMB.people}"
+                                 var="row">
+                        <af:outputText id="ot5"
+                                       value="#{row.name}: #{row.total}$"/>
+                    </af:iterator>
+                </af:panelGroupLayout>
+                <af:spacer id="s4" height="50px"/>
+                <af:panelGroupLayout id="pgl23" layout="vertical">
+                    <!-- Transactions to be made -->
+                    <af:outputText id="ot6" value="Transactions to be made:"/>
+                    <af:iterator id="it4"
+                                 value="#{pageFlowScope.friendsHelperMB.tansactions}"
+                                 var="row">
+                        <af:outputText id="ot7"
+                                       value="#{row.donor} -> #{row.reciepient}: #{row.sum}$"/>
+                    </af:iterator>
+                </af:panelGroupLayout>
+                <af:spacer id="s5" height="50px"/>
+                <af:panelGroupLayout id="pgl24" layout="vertical">
+                    <!-- Result -->
+                    <af:outputText id="ot13" value="Result:"/>
+                    <af:iterator id="it5"
+                                 value="#{pageFlowScope.friendsHelperMB.people}"
+                                 var="row">
+                        <af:outputText id="ot12"
+                                       value="#{row.name}: #{row.result}$"/>
+                    </af:iterator>
+                </af:panelGroupLayout>
+            </af:panelGroupLayout>
+        </af:panelGroupLayout>
+    </af:subform>
+</jsp:root>

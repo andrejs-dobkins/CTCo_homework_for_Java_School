@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <task-flow-definition id="friends-helper-task-flow">
+    <default-activity id="__1">friendsHelperFragment</default-activity>
+    <data-control-scope id="__17">
+      <shared/>
+    </data-control-scope>
+    <managed-bean id="__3">
+      <managed-bean-name id="__5">friendsHelperMB</managed-bean-name>
+      <managed-bean-class id="__4">bean.FriendsHelperMB</managed-bean-class>
+      <managed-bean-scope id="__2">pageFlow</managed-bean-scope>
+    </managed-bean>
+    <view id="friendsHelperFragment">
+      <page>/fragments/friendsHelperFragment.jsff</page>
+    </view>
+    <use-page-fragments/>
+  </task-flow-definition>
+</adfc-config>
